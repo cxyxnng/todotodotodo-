@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Y2K Custom To-Do Final</title>
+  <style>
+    :root {
+      --main-pink: #f9dae4;
+      /* 전체 아웃라인, 로고, 버튼 */
+      --heart-accent: #fc9ab7;
+      /* 하트 채움, 강조 텍스트 */
+      --check-pink: #fecbde;
+      /* 체크박스 */
+      --highlight-bg: #fff8fb;
+      /* 하이라이트 배경 (플러스 버튼에 적용) */
+      --text-gray: #666666;
+      --item-border: #eeeeee;
+    }
+
+    body {
+      /* 4번 수정: 배경색 화이트로 변경 */
+      background-color: #ffffff;
+      font-family: 'Pretendard', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .widget-card {
+      width: 340px;
+      background-color: var(--main-pink);
+      padding: 5px;
+      border-radius: 12px;
+      /* 파란선 부분: 두께 유지 */
+      box-shadow: inset 2px 2px 0px #ffffff, inset -2.5px -2.5px 0px #d9b8c4;
+    }
+
+    .inner-box {
+      background: #ffffff;
+      border-radius: 8px;
+      /* 5번 수정: 빨간선 부분 테두리 얇게 (2px -> 1.5px) */
+      border: 1.5px solid var(--main-pink);
+      overflow: hidden;
+    }
+
+    .header {
+      padding: 6px 12px;
+      background-color: var(--highlight-bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--main-pink);
+    }
+
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--main-pink);
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .win-btn {
+      background: var(--highlight-bg);
+      border: 1px solid var(--main-pink);
+      border-radius: 4px;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--main-pink);
+    }
+
+    .input-row {
+      padding: 15px 12px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      border-bottom: 1.5px dotted var(--main-pink);
+    }
+
+    input[type="text"] {
+      flex: 1;
+      height: 34px;
+      padding: 0 10px;
+      border: 1px solid var(--item-border);
+      border-radius: 4px;
+      outline: none;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+
+    .add-square-btn {
+      width: 34px;
+      height: 34px;
+      /* 3번 수정: 배경색 main pink -> highlight bg 로 변경 */
+      background: var(--highlight-bg);
+      /* 테두리는 핑크 유지 */
+      border: 2.5px solid var(--main-pink);
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+
+    /* 플러스 버튼 안의 아이콘 색상도 핑크로 변경 */
+    .add-square-btn svg {
+      stroke: var(--main-pink);
+    }
+
+    .list-container {
+      padding: 12px;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+
+    .todo-card {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1.2px solid var(--item-border);
+      border-radius: 6px;
+      margin-bottom: 8px;
+      background: white;
+      transition: all 0.2s;
+    }
+
+    .todo-card.highlight {
+      background-color: var(--highlight-bg);
+      border-color: var(--heart-accent);
+    }
+
+    .todo-card.highlight .text {
+      color: var(--heart-accent);
+      font-weight: 500;
+    }
+
+    .todo-card.checked .text {
+      text-decoration: line-through;
+      color: #ccc;
+    }
+
+    .checkbox-custom {
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--check-pink);
+      border-radius: 3px;
+      margin-right: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .todo-card.checked .checkbox-custom {
+      background-color: var(--check-pink);
+    }
+
+    .text {
+      flex: 1;
+      font-size: 14px;
+      color: var(--text-gray);
+    }
+
+    /* 2번 수정: 하트와 X 버튼 그룹의 완벽한 상하정렬 */
+    .btns {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      /* 상하 중앙 정렬 */
+    }
+
+    .icon-only {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px;
+      /* 아이콘 기본 색상 통일 */
+      color: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 2번 수정: del-box-btn을 SVG 아이콘 전용 스타일로 변경 */
+    .del-icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px;
+      color: #ddd;
+      /* 하트와 동일한 색상 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .heart-btn.active {
+      color: var(--heart-accent);
+    }
+
+    .heart-btn.active svg {
+      fill: var(--heart-accent);
+    }
+
+    /* 아이콘 크기 통일 */
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="widget-card">
+    <div class="inner-box">
+      <div class="header">
+        <div class="title-group">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"></path>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+          to do list
+        </div>
+        <div style="display: flex; gap: 4px;">
+          <button class="win-btn" onclick="document.getElementById('todoList').innerHTML=''">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+            </svg>
+          </button>
+          <button class="win-btn" onclick="location.reload()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <input type="text" id="todoInput" placeholder="add a task...">
+        <button class="add-square-btn" onclick="addTodo()">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="4">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="list-container" id="todoList"></div>
+    </div>
+  </div>
+
+  <script>
+    const list = document.getElementById('todoList');
+    const input = document.getElementById('todoInput');
+
+    function addTodo() {
+      const val = input.value.trim();
+      if (!val) return;
+      const item = document.createElement('div');
+      item.className = 'todo-card';
+      // 2번 수정: X 버튼을 텍스트 'x'에서 정사각형 SVG 아이콘으로 교체
+      item.innerHTML = `
+            <div class="checkbox-custom" onclick="toggleCheck(this)">
+                <svg class="mark" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" style="display:none;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <span class="text">${val}</span>
+            <div class="btns">
+                <button class="icon-only heart-btn" onclick="toggleHighlight(this)">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </button>
+                <button class="del-icon-btn" onclick="this.closest('.todo-card').remove()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        `;
+      list.appendChild(item);
+      input.value = '';
+    }
+
+    function toggleCheck(el) {
+      const card = el.closest('.todo-card');
+      const mark = el.querySelector('.mark');
+      card.classList.toggle('checked');
+      mark.style.display = card.classList.contains('checked') ? 'block' : 'none';
+    }
+
+    function toggleHighlight(btn) {
+      const card = btn.closest('.todo-card');
+      btn.classList.toggle('active');
+      card.classList.toggle('highlight');
+      if (card.classList.contains('highlight')) {
+        list.prepend(card);
+      }
+    }
+    input.addEventListener('keypress', e => {
+      if (e.key === 'Enter') addTodo();
+    });
+  </script>
+
+</body>
+
+</html>
+    
+  </body>
+  
+</html>
