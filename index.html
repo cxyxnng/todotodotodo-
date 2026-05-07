@@ -1,72 +1,47 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
-  <title>Y2K Custom To-Do with Notion</title>
+  <title>Y2K Custom To-Do Final</title>
   <style>
     :root {
       --main-pink: #f9dae4;
+      /* 전체 아웃라인, 로고, 버튼 */
       --heart-accent: #fc9ab7;
+      /* 하트 채움, 강조 텍스트 */
       --check-pink: #fecbde;
+      /* 체크박스 */
       --highlight-bg: #fff8fb;
+      /* 하이라이트 배경 (플러스 버튼에 적용) */
       --text-gray: #666666;
       --item-border: #eeeeee;
     }
 
     body {
+      /* 4번 수정: 배경색 화이트로 변경 */
       background-color: #ffffff;
       font-family: 'Pretendard', sans-serif;
       display: flex;
-      flex-direction: column; /* 세로 정렬 */
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      height: 100vh;
       margin: 0;
     }
 
-    /* 노션 설정창 스타일 */
-    .notion-config {
-      width: 330px;
-      background: #fdfdfd;
-      border: 2px solid var(--main-pink);
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 15px;
-      box-sizing: border-box;
-    }
-    .notion-config h4 { margin: 0 0 10px 0; color: var(--heart-accent); font-size: 14px; }
-    .notion-config input {
-      width: 100%;
-      height: 30px;
-      margin-bottom: 8px;
-      border: 1px solid var(--item-border);
-      border-radius: 4px;
-      padding: 0 8px;
-      font-size: 12px;
-      box-sizing: border-box;
-    }
-    .notion-config button {
-      width: 100%;
-      background: var(--main-pink);
-      border: none;
-      color: white;
-      padding: 8px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
     .widget-card {
-      width: 330px;
+      width: 340px;
       background-color: var(--main-pink);
       padding: 5px;
       border-radius: 12px;
+      /* 파란선 부분: 두께 유지 */
       box-shadow: inset 2px 2px 0px #ffffff, inset -2.5px -2.5px 0px #d9b8c4;
     }
 
     .inner-box {
       background: #ffffff;
       border-radius: 8px;
+      /* 5번 수정: 빨간선 부분 테두리 얇게 (2px -> 1.5px) */
       border: 1.5px solid var(--main-pink);
       overflow: hidden;
     }
@@ -124,7 +99,9 @@
     .add-square-btn {
       width: 34px;
       height: 34px;
+      /* 3번 수정: 배경색 main pink -> highlight bg 로 변경 */
       background: var(--highlight-bg);
+      /* 테두리는 핑크 유지 */
       border: 2.5px solid var(--main-pink);
       border-radius: 6px;
       cursor: pointer;
@@ -134,7 +111,10 @@
       box-sizing: border-box;
     }
 
-    .add-square-btn svg { stroke: var(--main-pink); }
+    /* 플러스 버튼 안의 아이콘 색상도 핑크로 변경 */
+    .add-square-btn svg {
+      stroke: var(--main-pink);
+    }
 
     .list-container {
       padding: 12px;
@@ -158,8 +138,15 @@
       border-color: var(--heart-accent);
     }
 
-    .todo-card.highlight .text { color: var(--heart-accent); font-weight: 500; }
-    .todo-card.checked .text { text-decoration: line-through; color: #ccc; }
+    .todo-card.highlight .text {
+      color: var(--heart-accent);
+      font-weight: 500;
+    }
+
+    .todo-card.checked .text {
+      text-decoration: line-through;
+      color: #ccc;
+    }
 
     .checkbox-custom {
       width: 18px;
@@ -173,32 +160,66 @@
       justify-content: center;
     }
 
-    .todo-card.checked .checkbox-custom { background-color: var(--check-pink); }
-
-    .text { flex: 1; font-size: 14px; color: var(--text-gray); }
-
-    .btns { display: flex; gap: 6px; align-items: center; }
-
-    .icon-only, .del-icon-btn {
-      background: none; border: none; cursor: pointer; padding: 2px;
-      color: #ddd; display: flex; align-items: center; justify-content: center;
+    .todo-card.checked .checkbox-custom {
+      background-color: var(--check-pink);
     }
 
-    .heart-btn.active { color: var(--heart-accent); }
-    .heart-btn.active svg { fill: var(--heart-accent); }
+    .text {
+      flex: 1;
+      font-size: 14px;
+      color: var(--text-gray);
+    }
 
-    svg { width: 16px; height: 16px; }
+    /* 2번 수정: 하트와 X 버튼 그룹의 완벽한 상하정렬 */
+    .btns {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      /* 상하 중앙 정렬 */
+    }
+
+    .icon-only {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px;
+      /* 아이콘 기본 색상 통일 */
+      color: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 2번 수정: del-box-btn을 SVG 아이콘 전용 스타일로 변경 */
+    .del-icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px;
+      color: #ddd;
+      /* 하트와 동일한 색상 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .heart-btn.active {
+      color: var(--heart-accent);
+    }
+
+    .heart-btn.active svg {
+      fill: var(--heart-accent);
+    }
+
+    /* 아이콘 크기 통일 */
+    svg {
+      width: 16px;
+      height: 16px;
+    }
   </style>
 </head>
-<body>
 
-  <!-- 노션 설정창 (상단에 추가됨) -->
-  <div class="notion-config">
-    <h4>🎀 Notion Connection</h4>
-    <input type="password" id="notionToken" placeholder="노션 API 토큰 입력">
-    <input type="text" id="notionDbId" placeholder="데이터베이스 ID 입력">
-    <button onclick="fetchNotionData()">목록 불러오기</button>
-  </div>
+<body>
 
   <div class="widget-card">
     <div class="inner-box">
@@ -211,7 +232,7 @@
           to do list
         </div>
         <div style="display: flex; gap: 4px;">
-          <button class="win-btn" onclick="clearAll()">
+          <button class="win-btn" onclick="document.getElementById('todoList').innerHTML=''">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
               <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
             </svg>
@@ -242,129 +263,54 @@
   <script>
     const list = document.getElementById('todoList');
     const input = document.getElementById('todoInput');
-    const PROXY = "https://api.allorigins.win/raw?url="; // 버튼 안눌러도 되는 통로
-
-    window.onload = loadTodos;
-
-    // --- 노션 데이터 가져오기 기능 ---
-    async function fetchNotionData() {
-      const token = document.getElementById('notionToken').value;
-      const dbId = document.getElementById('notionDbId').value;
-      
-      if(!token || !dbId) return alert("토큰과 ID를 입력해주세요!");
-
-      const notionUrl = `https://api.notion.com/v1/databases/${dbId}/query`;
-      
-      try {
-        const response = await fetch(PROXY + encodeURIComponent(notionUrl), {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Notion-Version': '2022-06-28',
-            'Content-Type': 'application/json'
-          }
-        });
-
-        const data = await response.json();
-        const items = data.results;
-
-        // 기존 리스트 비우고 노션 데이터 추가
-        list.innerHTML = '';
-        items.forEach(item => {
-          // '할일', 'Name', '제목' 중 하나를 찾아서 가져옴
-          const prop = item.properties['할일'] || item.properties['Name'] || item.properties['제목'];
-          const text = prop.title[0]?.plain_text || "내용 없음";
-          createTodoElement(text, false, false);
-        });
-        
-        saveTodos();
-        alert("노션에서 목록을 가져왔습니다! ✨");
-      } catch (e) {
-        alert("연결 실패! 노션 페이지에서 '연결 추가'를 했는지 확인하세요.");
-      }
-    }
-
-    // --- 기존 투두리스트 기능 ---
-    function saveTodos() {
-      const todos = [];
-      document.querySelectorAll('.todo-card').forEach(card => {
-        todos.push({
-          text: card.querySelector('.text').innerText,
-          checked: card.classList.contains('checked'),
-          highlight: card.classList.contains('highlight')
-        });
-      });
-      localStorage.setItem('y2k_todos', JSON.stringify(todos));
-    }
-
-    function loadTodos() {
-      const saved = JSON.parse(localStorage.getItem('y2k_todos') || '[]');
-      saved.forEach(todo => {
-        createTodoElement(todo.text, todo.checked, todo.highlight);
-      });
-    }
-
-    function createTodoElement(text, isChecked, isHighlight) {
-      const item = document.createElement('div');
-      item.className = `todo-card ${isChecked ? 'checked' : ''} ${isHighlight ? 'highlight' : ''}`;
-      item.innerHTML = `
-        <div class="checkbox-custom" onclick="toggleCheck(this)">
-          <svg class="mark" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" style="display:${isChecked ? 'block' : 'none'};">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-        </div>
-        <span class="text">${text}</span>
-        <div class="btns">
-          <button class="icon-only heart-btn ${isHighlight ? 'active' : ''}" onclick="toggleHighlight(this)">
-            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-          </button>
-          <button class="del-icon-btn" onclick="removeTodo(this)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-        </div>
-      `;
-      list.appendChild(item);
-    }
 
     function addTodo() {
       const val = input.value.trim();
       if (!val) return;
-      createTodoElement(val, false, false);
+      const item = document.createElement('div');
+      item.className = 'todo-card';
+      // 2번 수정: X 버튼을 텍스트 'x'에서 정사각형 SVG 아이콘으로 교체
+      item.innerHTML = `
+            <div class="checkbox-custom" onclick="toggleCheck(this)">
+                <svg class="mark" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" style="display:none;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <span class="text">${val}</span>
+            <div class="btns">
+                <button class="icon-only heart-btn" onclick="toggleHighlight(this)">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </button>
+                <button class="del-icon-btn" onclick="this.closest('.todo-card').remove()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        `;
+      list.appendChild(item);
       input.value = '';
-      saveTodos();
     }
 
     function toggleCheck(el) {
       const card = el.closest('.todo-card');
+      const mark = el.querySelector('.mark');
       card.classList.toggle('checked');
-      el.querySelector('.mark').style.display = card.classList.contains('checked') ? 'block' : 'none';
-      saveTodos();
+      mark.style.display = card.classList.contains('checked') ? 'block' : 'none';
     }
 
     function toggleHighlight(btn) {
       const card = btn.closest('.todo-card');
       btn.classList.toggle('active');
       card.classList.toggle('highlight');
-      if (card.classList.contains('highlight')) list.prepend(card);
-      saveTodos();
-    }
-
-    function removeTodo(btn) {
-      btn.closest('.todo-card').remove();
-      saveTodos();
-    }
-
-    function clearAll() {
-      if(confirm('모든 목록을 삭제할까요?')) {
-        list.innerHTML = '';
-        localStorage.removeItem('y2k_todos');
+      if (card.classList.contains('highlight')) {
+        list.prepend(card);
       }
     }
-
-    input.onkeypress = e => { if (e.key === 'Enter') addTodo(); };
+    input.addEventListener('keypress', e => {
+      if (e.key === 'Enter') addTodo();
+    });
   </script>
+
 </body>
+
 </html>
